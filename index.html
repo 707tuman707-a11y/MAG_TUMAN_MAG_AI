@@ -1,71 +1,32 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <meta name="theme-color" content="#080d1d">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111018">
   <title>MAG_TUMAN_MAG AI</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/style.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <header class="top">
-    <div class="brand"><span>MAG_TUMAN_MAG</span><b> AI</b></div>
-    <div class="top-actions"><button class="ghost" id="tasksBtn">☷ Задания</button><button class="buy" id="buyBtn">Купить <span>◇ <strong id="balanceTop">181</strong></span></button></div>
-  </header>
-
-  <main>
-    <section class="tools">
-      <button class="tool" data-open="image"><span class="tool-icon">▧</span><span>Картинка</span></button>
-      <button class="tool" data-open="video"><span class="tool-icon">▹</span><span>Видео</span></button>
-      <button class="tool" data-open="prompt"><span class="tool-icon">✧</span><span>Промпт по фото</span></button>
-      <button class="tool" data-open="assistant"><span class="tool-icon">✦</span><span>ИИ-ассистент</span></button>
+  <main class="wrap">
+    <header><div class="mark">MAG</div><div><h1>MAG_TUMAN_MAG AI</h1><p>Твоя AI-студия</p></div></header>
+    <section class="panel">
+      <h2>Создать изображение</h2>
+      <p class="muted">Опиши, что хочешь увидеть.</p>
+      <textarea id="prompt" placeholder="Например: футуристический город в тумане, кинематографичный свет..."></textarea>
+      <button id="imageBtn">Создать изображение</button>
+      <div id="status" class="status" aria-live="polite"></div>
+      <img id="result" alt="Созданное изображение" hidden>
     </section>
-
-    <section class="section-head"><h2>🔥 ТРЕНДЫ</h2><button class="small-btn" id="allTrends">Все</button></section>
-    <section class="trend-grid" id="trends">
-      <article class="trend" style="--bg:linear-gradient(145deg,#563c31,#10182b)"><div class="trend-art">🎬</div><b>КИНОШНЫЙ КАДР 🔥</b></article>
-      <article class="trend" style="--bg:linear-gradient(145deg,#38495a,#10182b)"><div class="trend-art">✨</div><b>FASHION AI 💔</b></article>
-      <article class="trend" style="--bg:linear-gradient(145deg,#324b58,#10182b)"><div class="trend-art">🌫️</div><b>ЗАЖЕЧЬ МОСТ 🔥</b></article>
-      <article class="trend" style="--bg:linear-gradient(145deg,#1d3349,#10182b)"><div class="trend-art">🚪</div><b>ЗАКРЫТАЯ ДВЕРЬ</b></article>
+    <section class="panel">
+      <h2>Создать видео</h2>
+      <p class="muted">Раздел подготовлен. Для генерации видео нужно подключить отдельный видеосервис.</p>
+      <button class="secondary" id="videoBtn">Проверить готовность видео</button>
+      <div id="videoStatus" class="status" aria-live="polite"></div>
     </section>
-    <section class="section-head"><h2>✨ ИНСТРУМЕНТЫ</h2></section>
-    <section class="feature-list">
-      <button data-open="image"><span>🖼️</span><span><b>Генерация изображений</b><small>Создавай изображения по описанию</small></span><i>›</i></button>
-      <button data-open="video"><span>🎥</span><span><b>Генерация видео</b><small>Превращай идеи в видео</small></span><i>›</i></button>
-      <button data-open="assistant"><span>💬</span><span><b>ИИ-ассистент</b><small>Помощь с идеями и текстами</small></span><i>›</i></button>
-    </section>
+    <footer>MAG_TUMAN_MAG AI · Telegram Mini App</footer>
   </main>
-
-  <nav class="bottom">
-    <button class="active" data-tab="home"><span>⌂</span>Главная</button>
-    <button data-tab="feed"><span>▤</span>Лента</button>
-    <button class="plus" data-open="image">＋</button>
-    <button data-tab="assistant"><span>◯</span>ИИ Ассистент</button>
-    <button data-tab="profile"><span>♙</span>Профиль</button>
-  </nav>
-
-  <div class="modal hidden" id="modal">
-    <div class="sheet">
-      <div class="sheet-head"><h3 id="modalTitle">Создать</h3><button id="closeModal">✕</button></div>
-      <p class="muted" id="modalHint">Опиши, что хочешь создать.</p>
-      <textarea id="promptInput" placeholder="Например: кинематографичный портрет в неоновом городе..."></textarea>
-      <div class="upload" id="uploadBox">＋ Прикрепить фото <input id="photoInput" type="file" accept="image/*" hidden></div>
-      <button class="primary" id="generateBtn">Создать</button>
-      <p class="notice" id="notice"></p>
-    </div>
-  </div>
-
-  <div class="modal hidden" id="profileModal"><div class="sheet">
-    <div class="sheet-head"><h3>Профиль</h3><button data-close-profile>✕</button></div>
-    <div class="profile-card"><div class="avatar">M</div><div><b id="userName">Пользователь</b><small id="userHandle">@telegram</small></div></div>
-    <div class="stat"><span>Баланс</span><b>◇ <span id="balanceProfile">181</span></b></div>
-    <div class="stat"><span>Тариф</span><b>Стартовый</b></div>
-    <div class="stat"><span>Создано генераций</span><b>0</b></div>
-  </div></div>
-
-  <div class="modal hidden" id="tasksModal"><div class="sheet">
-    <div class="sheet-head"><h3>Задания</h3><button data-close-tasks>✕</button></div>
-    <div id="taskList"></div>
-  </div></div>
   <script src="/app.js"></script>
-</body></html>
+</body>
+</html>
